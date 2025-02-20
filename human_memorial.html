@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Heartbit - Loved One Memorial</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A digital memorial for a loved one by Heartbit, preserving legacies in South Africa." />
+    <meta name="keywords" content="South Africa memorial, QR legacy, loved one, Heartbit" />
+    
+    <link rel="icon" type="image/x-icon" href="[Your Favicon URL]">
+    <link rel="apple-touch-icon" href="[Your Logo URL]">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500&family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style type="text/css">
+        body { font-family: 'Ubuntu', sans-serif; color: #49494b; background: #ffffff; }
+        .header-section { background: linear-gradient(to bottom, #4e5c78, #a35fe2); padding: 20px; text-align: center; color: #ffffff; }
+        .form-section { max-width: 800px; margin: 20px auto; padding: 20px; background: #ffffff; }
+        .form-section input, .form-section textarea, .form-section select { width: 100%; margin: 10px 0; padding: 8px; }
+        .main-content { display: flex; flex-wrap: wrap; max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+        .left-column, .right-column { flex: 1; min-width: 300px; padding: 20px; }
+        .left-column { background: #ffffff; }
+        .right-column { text-align: center; }
+        .profile-img { width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 8px solid #ffffff; margin-bottom: 20px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #4e5c78; margin-bottom: 20px; }
+        h3 { font-size: 16px; color: #a35fe2; text-transform: uppercase; margin: 10px 0; }
+        .story { line-height: 1.6; }
+        .nav-buttons, .share-section, .company-section { text-align: center; padding: 20px; max-width: 1200px; margin: 20px auto; }
+        .nav-buttons a { background: #4e5c78; color: #ffffff; padding: 10px 20px; margin: 5px; text-decoration: none; border-radius: 5px; }
+        .nav-buttons a:hover { background: #a35fe2; }
+        .company-section { background: #ffffff; }
+        .company-section a { background: #a35fe2; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px; }
+        .company-section a:hover { background: #4e5c78; }
+        footer { background: #4e5c78; color: #ffffff; text-align: center; padding: 20px; }
+        footer a { color: #a35fe2; text-decoration: none; }
+        footer a:hover { color: #ffffff; }
+        #qrCode, #costSummary { margin: 20px auto; }
+    </style>
+</head>
+<body>
+    <div class="header-section">
+        <h2>Heartbit</h2>
+        <p>Preserving Legacies</p>
+    </div>
+    <div class="form-section">
+        <h3>Create a Loved One Memorial</h3>
+        <form id="memorialForm">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="text" id="birthDate" placeholder="Birth Date (e.g., 12 March 1980)" required>
+            <input type="text" id="birthPlace" placeholder="Birth Place" required>
+            <input type="text" id="deathDate" placeholder="Death Date (e.g., 15 January 2025)" required>
+            <input type="text" id="deathPlace" placeholder="Death Place" required>
+            <textarea id="biography" placeholder="Write your loved one’s story here..." rows="5" required></textarea>
+            <input type="text" id="imageUrl" placeholder="Profile Image URL (optional)">
+            <h4>Choose Your QR Code Item</h4>
+            <p>Base Price (Stainless Steel Engraving Included): R500</p>
+            <select id="delivery" required>
+                <option value="100">Delivery (R100)</option>
+            </select>
+            <label><input type="checkbox" id="coin" value="150"> Add Coin (R150)</label><br>
+            <label><input type="checkbox" id="keyring" value="200"> Add Keyring (R200)</label>
+            <div id="costSummary">Total: R500</div>
+            <button type="submit">Confirm & Generate QR Code</button>
+        </form>
+        <div id="qrCode"></div>
+        <form id="payfastForm" action="https://www.payfast.co.za/eng/process" method="post" style="display:none;">
+            <input type="hidden" name="merchant_id" value="[Your PayFast Merchant ID]">
+            <input type="hidden" name="merchant_key" value="[Your PayFast Merchant Key]">
+            <input type="hidden" name="amount" id="payfastAmount" value="500">
+            <input type="hidden" name="item_name" value="Heartbit Loved One Memorial - [Person's Name]">
+            <input type="hidden" name="return_url" value="[Your Thank You Page URL]">
+            <input type="hidden" name="cancel_url" value="[Your Cancel Page URL]">
+            <input type="submit" value="Pay Now with PayFast">
+        </form>
+    </div>
+    <div class="main-content">
+        <div class="left-column">
+            <h3>Our Story</h3>
+            <div class="story" id="bioDisplay">[Biography will appear here after confirmation]</div>
+        </div>
+        <div class="right-column">
+            <img src="[Your Profile Image URL]" alt="Profile" class="profile-img" id="profileImg">
+            <h1 id="nameDisplay">[Person's Name]</h1>
+            <h3>Born</h3>
+            <p id="birthDisplay">[Birth Date]<br>[Birth Place, South Africa]</p>
+            <h3>Passed</h3>
+            <p id="deathDisplay">[Death Date]<br>[Death Place, South Africa]</p>
+        </div>
+    </div>
+    <div class="nav-buttons">
+        <a href="#story">Our Story</a>
+        <a href="#gallery">Memories</a>
+        <a href="#tributes">Tributes</a>
+    </div>
+    <div class="share-section">
+        <h3>Share This Legacy</h3>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=[Your URL]" class="nav-buttons">Facebook</a>
+        <a href="https://twitter.com/intent/tweet?url=[Your URL]" class="nav-buttons">X</a>
+        <a href="javascript:copyLink();" class="nav-buttons">Copy Link</a>
+    </div>
+    <div class="company-section">
+        <h3>About Heartbit</h3>
+        <p>Heartbit is a South African company dedicated to keeping memories alive through QR-coded memorials. Based in Johannesburg, we help families honour their loved ones with digital legacies that last forever.</p>
+        <p>Contact us at info@redifrog.co.za or <a href="[https://formspree.io/f/mgvodvre]">send us a message</a> to create a memorial today.</p>
+        <a href="[https://formspree.io/f/mgvodvre]">Create Your Own Memorial</a>
+        <p>Want to make a difference? Join the Organ Donor Foundation at <a href="https://www.odf.org.za">odf.org.za</a> and save lives.</p>
+    </div>
+    <footer>
+        <p>© 2025 Heartbit. Preserving Legacies.</p>
+        <p>Contact: <a href="[https://formspree.io/f/mgvodvre]">Contact Us</a> | info@redifrog.co.za</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+        const form = document.getElementById('memorialForm');
+        const costSummary = document.getElementById('costSummary');
+        const coin = document.getElementById('coin');
+        const keyring = document.getElementById('keyring');
+        const delivery = document.getElementById('delivery');
+        const payfastForm = document.getElementById('payfastForm');
+        const payfastAmount = document.getElementById('payfastAmount');
+        function updateCost() {
+            let total = 500;
+            total += parseInt(delivery.value);
+            if (coin.checked) total += 150;
+            if (keyring.checked) total += 200;
+            costSummary.textContent = `Total: R${total}`;
+            payfastAmount.value = total;
+        }
+        coin.addEventListener('change', updateCost);
+        keyring.addEventListener('change', updateCost);
+        delivery.addEventListener('change', updateCost);
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const birthDate = document.getElementById('birthDate').value;
+            const birthPlace = document.getElementById('birthPlace').value;
+            const deathDate = document.getElementById('deathDate').value;
+            const deathPlace = document.getElementById('deathPlace').value;
+            const biography = document.getElementById('biography').value;
+            const imageUrl = document.getElementById('imageUrl').value || '[Your Profile Image URL]';
+            document.getElementById('nameDisplay').textContent = name;
+            document.getElementById('birthDisplay').textContent = `${birthDate}\n${birthPlace}, South Africa`;
+            document.getElementById('deathDisplay').textContent = `${deathDate}\n${deathPlace}, South Africa`;
+            document.getElementById('bioDisplay').textContent = biography;
+            document.getElementById('profileImg').src = imageUrl;
+            const qrData = `${window.location.href}?name=${encodeURIComponent(name)}&bio=${encodeURIComponent(biography)}`;
+            document.getElementById('qrCode').innerHTML = '';
+            QRCode.toCanvas(qrData, { width: 200 }, function (error, canvas) {
+                if (error) console.error(error);
+                document.getElementById('qrCode').appendChild(canvas);
+            });
+            document.querySelector('#payfastForm input[name="item_name"]').value = `Heartbit Loved One Memorial - ${name}`;
+            payfastForm.style.display = 'block';
+        });
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
